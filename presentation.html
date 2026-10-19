@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstateFlow - CA1 Video Presentation Deck</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .slide-container {
+            width: 100%;
+            max-width: 950px;
+            min-height: 560px;
+            background-color: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 12px;
+            padding: 40px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: #2563eb;
+            color: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            width: fit-content;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            color: #60a5fa;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .speaker-box {
+            background-color: #0f172a;
+            border-left: 4px solid #3b82f6;
+            padding: 12px 18px;
+            border-radius: 4px;
+            margin-top: auto;
+            margin-bottom: 15px;
+        }
+
+        .speaker-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .speaker-script {
+            font-size: 0.95rem;
+            color: #e2e8f0;
+            font-style: italic;
+            margin-top: 4px;
+        }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .card {
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            color: #38bdf8;
+            margin-bottom: 6px;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 950px;
+        }
+
+        .btn {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1.5px solid #475569;
+            color: #cbd5e1;
+        }
+
+        .btn-outline:hover {
+            background-color: #334155;
+            color: white;
+        }
+
+        .slide-counter {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slide-container">
+
+        <!-- Slide 1: Title & Team -->
+        <div class="slide active">
+            <span class="badge">CSE326 CA1 Assessment</span>
+            <h1>EstateFlow — Property Lead Management</h1>
+            <h2>Boys-QH-T | Lovely Professional University</h2>
+            <div class="grid-cards">
+                <div class="card">
+                    <h3>Sathish Gudipudi (Lead)</h3>
+                    <p>Registration No: 12613921</p>
+                </div>
+                <div class="card">
+                    <h3>Team Member 2</h3>
+                    <p>Registration No: 12614592</p>
+                </div>
+                <div class="card">
+                    <h3>Team Member 3</h3>
+                    <p>Registration No: 12620884</p>
+                </div>
+                <div class="card">
+                    <h3>Live Deployment</h3>
+                    <p>Hosted on GitHub Pages</p>
+                </div>
+            </div>
+            <div class="speaker-box">
+                <div class="speaker-label">Speaker: Sathish Gudipudi (12613921)</div>
+                <div class="speaker-script">"Hello everyone. I am Sathish Gudipudi (12613921), leader of Boys-QH-T. Today our team is presenting EstateFlow, our CA1 project for CSE326."</div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Problem Statement & Motivation -->
+        <div class="slide">
+            <span class="badge">The Challenge</span>
+            <h1>Problem Statement & Motivation</h1>
+            <h2>Why Property Agents Need EstateFlow</h2>
+            <p>Property agents receive dozens of client inquiries daily from buyers and sellers across different channels. Without a centralized system:</p>
+            <div class="grid-cards">
+                <div class="card">
+                    <h3>⚠️ Missed Follow-ups</h3>
+                    <p>Agents lose track of client callback dates and site visit commitments.</p>
+                </div>
+                <div class="card">
+                    <h3>📉 Lost Sales Pipeline</h3>
+                    <p>Inquiries get forgotten between initial contact and deal closure.</p>
+                </div>
+                <div class="card">
+                    <h3>🔍 Search Inefficiency</h3>
+                    <p>No quick way to find matching budgets and property types.</p>
+                </div>
+                <div class="card">
+                    <h3>📊 Lack of Visibility</h3>
+                    <p>Absence of real-time metrics on deals in progress.</p>
+                </div>
+            </div>
+            <div class="speaker-box">
+                <div class="speaker-label">Speaker: Sathish Gudipudi (12613921)</div>
+                <div class="speaker-script">"Our problem statement addresses how property brokers lose track of leads and follow-up history. EstateFlow provides a clean, responsive single-page web solution."</div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Core Solution Features -->
+        <div class="slide">
+            <span class="badge">Features</span>
+            <h1>Key Features & Architecture</h1>
+            <h2>Full Rubric Implementation</h2>
+            <div class="grid-cards">
+                <div class="card">
+                    <h3>1. Dynamic Lead Form</h3>
+                    <p>Captures client details, buyer/seller role, property type, budget, and priority.</p>
+                </div>
+                <div class="card">
+                    <h3>2. Live Search Engine</h3>
+                    <p>Real-time filtering of all leads without page reloads.</p>
+                </div>
+                <div class="card">
+                    <h3>3. 4-Stage Sales Pipeline</h3>
+                    <p>Visual board tracking: New Inquiry &rarr; Contacted &rarr; Site Visit &rarr; Closed Won.</p>
+                </div>
+                <div class="card">
+                    <h3>4. Follow-up Schedule</h3>
+                    <p>Action-item calendar for scheduled calls, visits, and negotiations.</p>
+                </div>
+            </div>
+            <div class="speaker-box">
+                <div class="speaker-label">Speaker: Team Member 2 (12614592)</div>
+                <div class="speaker-script">"I am 12614592. I will demonstrate our core features: the lead intake form with client roles, budget validation, and our live search filter."</div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Working Live Demo Cue -->
+        <div class="slide">
+            <span class="badge">Live Demonstration</span>
+            <h1>Live Project Demonstration</h1>
+            <h2>Switching to Deployed Application</h2>
+            <p style="font-size: 1.2rem; margin-top: 20px;">
+                👉 Now switch tab to: <a href="https://sathish-08-x.github.io/Estate-Flow/" target="_blank" style="color: #60a5fa; text-decoration: underline;">sathish-08-x.github.io/Estate-Flow/</a>
+            </p>
+            <div class="card" style="margin-top: 20px;">
+                <h3>Demo Checklist during video:</h3>
+                <p>1. Fill out the "Add New Lead" form and click "Submit Lead".</p>
+                <p>2. Show the lead appearing at the top of the table.</p>
+                <p>3. Type in the search bar to demonstrate real-time filtering.</p>
+                <p>4. Point out the Sales Pipeline columns and Follow-up Schedule table.</p>
+            </div>
+            <div class="speaker-box">
+                <div class="speaker-label">Speaker: Team Member 2 & 3</div>
+                <div class="speaker-script">"Watch as we submit a new lead into the form. The JavaScript DOM manipulation dynamically updates the table and increments the active leads counter."</div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Tech Stack & Contributions -->
+        <div class="slide">
+            <span class="badge">Implementation</span>
+            <h1>Technologies Used & Contributions</h1>
+            <h2>Clean Vanilla Web Development</h2>
+            <div class="grid-cards">
+                <div class="card">
+                    <h3>HTML5 Semantic Tags</h3>
+                    <p>Header, Aside, Main, Section, Table, Form.</p>
+                </div>
+                <div class="card">
+                    <h3>CSS3 Layouts</h3>
+                    <p>Flexbox navigation, Grid form, Outline box model.</p>
+                </div>
+                <div class="card">
+                    <h3>JavaScript (ES6)</h3>
+                    <p>Event handling, DOM row insertion, live keyup search.</p>
+                </div>
+                <div class="card">
+                    <h3>Deployment</h3>
+                    <p>Version controlled with Git and hosted on GitHub Pages.</p>
+                </div>
+            </div>
+            <div class="speaker-box">
+                <div class="speaker-label">Speaker: Team Member 3 (12620884)</div>
+                <div class="speaker-script">"I am 12620884. We built this application using pure semantic HTML5, responsive CSS3 flexbox/grid, and vanilla JavaScript without external dependencies."</div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Summary & Submission Links -->
+        <div class="slide">
+            <span class="badge">Conclusion</span>
+            <h1>Project Summary & Links</h1>
+            <h2>Ready for Evaluation</h2>
+            <p><strong>Project:</strong> EstateFlow - Property Lead Management System</p>
+            <p><strong>GitHub:</strong> https://github.com/Sathish-08-x/Estate-Flow</p>
+            <p><strong>Live URL:</strong> https://sathish-08-x.github.io/Estate-Flow/</p>
+            <div class="speaker-box" style="margin-top: 30px;">
+                <div class="speaker-label">Speaker: Sathish Gudipudi (12613921)</div>
+                <div class="speaker-script">"Thank you for watching our presentation. EstateFlow is fully deployed and accessible on GitHub Pages. We look forward to our viva questions."</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation Bar for Slides -->
+    <div class="nav-controls">
+        <button class="btn btn-outline" id="prevBtn" onclick="prevSlide()">◀ Previous Slide</button>
+        <span class="slide-counter" id="slideCounter">Slide 1 of 6</span>
+        <button class="btn" id="nextBtn" onclick="nextSlide()">Next Slide ▶</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const counter = document.getElementById('slideCounter');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            counter.textContent = `Slide ${index + 1} of ${slides.length}`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        // Allow arrow keys to navigate slides
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+    </script>
+</body>
+</html>
