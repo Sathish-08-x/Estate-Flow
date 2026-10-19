@@ -279,14 +279,15 @@ body {
 }
 
 .btn-submit {
-    padding: 10px 22px;
+    padding: 10px 24px;
     background-color: #2563eb;
     color: #ffffff;
     font-weight: 600;
     border: 1.5px solid #1d4ed8;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
+    font-size: 0.95rem;
 }
 
 .btn-submit:hover {
@@ -341,7 +342,7 @@ body {
 }
 
 .stage-select {
-    padding: 5px 8px;
+    padding: 6px 10px;
     border: 1.5px solid #cbd5e1;
     border-radius: 6px;
     font-size: 0.85rem;
@@ -383,12 +384,12 @@ body {
 }
 
 .btn-save {
-    padding: 5px 10px;
+    padding: 6px 12px;
     background-color: #2563eb;
     color: #ffffff;
     border: 1px solid #1d4ed8;
     border-radius: 4px;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
@@ -404,12 +405,12 @@ body {
 }
 
 .btn-delete {
-    padding: 5px 10px;
+    padding: 6px 12px;
     background-color: #fee2e2;
     color: #b91c1c;
     border: 1px solid #fca5a5;
     border-radius: 4px;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
@@ -521,6 +522,27 @@ body {
     font-size: 0.8rem;
     color: #64748b;
     margin-bottom: 6px;
+}
+
+.toast-notice {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background-color: #10b981;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    display: none;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .page-footer {

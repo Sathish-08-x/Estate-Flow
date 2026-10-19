@@ -264,7 +264,7 @@
                     </div>
 
                     <div class="form-actions">
-                        <button type="submit" class="btn-submit">Submit Lead</button>
+                        <button type="submit" class="btn-submit">💾 Save Lead</button>
                         <button type="reset" class="btn-reset">Clear Form</button>
                     </div>
                 </form>
@@ -298,7 +298,7 @@
                                 <td>Apartment</td>
                                 <td>3cr</td>
                                 <td>
-                                    <select class="stage-select" onchange="updateRowStage(this)">
+                                    <select class="stage-select" onchange="saveLeadStage(this)">
                                         <option value="New" selected>New</option>
                                         <option value="Contacted">Contacted</option>
                                         <option value="Site Visit Scheduled">Site Visit Scheduled</option>
@@ -323,7 +323,7 @@
                                 <td>House</td>
                                 <td>1.25cr</td>
                                 <td>
-                                    <select class="stage-select" onchange="updateRowStage(this)">
+                                    <select class="stage-select" onchange="saveLeadStage(this)">
                                         <option value="New" selected>New</option>
                                         <option value="Contacted">Contacted</option>
                                         <option value="Site Visit Scheduled">Site Visit Scheduled</option>
@@ -348,7 +348,7 @@
                                 <td>Apartment</td>
                                 <td>2cr</td>
                                 <td>
-                                    <select class="stage-select" onchange="updateRowStage(this)">
+                                    <select class="stage-select" onchange="saveLeadStage(this)">
                                         <option value="New" selected>New</option>
                                         <option value="Contacted">Contacted</option>
                                         <option value="Site Visit Scheduled">Site Visit Scheduled</option>
@@ -373,7 +373,7 @@
                                 <td>Condo</td>
                                 <td>3.5 cr</td>
                                 <td>
-                                    <select class="stage-select" onchange="updateRowStage(this)">
+                                    <select class="stage-select" onchange="saveLeadStage(this)">
                                         <option value="New" selected>New</option>
                                         <option value="Contacted">Contacted</option>
                                         <option value="Site Visit Scheduled">Site Visit Scheduled</option>
@@ -398,7 +398,7 @@
                                 <td>Condo</td>
                                 <td>2.7cr</td>
                                 <td>
-                                    <select class="stage-select" onchange="updateRowStage(this)">
+                                    <select class="stage-select" onchange="saveLeadStage(this)">
                                         <option value="New" selected>New</option>
                                         <option value="Contacted">Contacted</option>
                                         <option value="Site Visit Scheduled">Site Visit Scheduled</option>
@@ -423,7 +423,7 @@
                                 <td>House</td>
                                 <td>4cr</td>
                                 <td>
-                                    <select class="stage-select" onchange="updateRowStage(this)">
+                                    <select class="stage-select" onchange="saveLeadStage(this)">
                                         <option value="New" selected>New</option>
                                         <option value="Contacted">Contacted</option>
                                         <option value="Site Visit Scheduled">Site Visit Scheduled</option>
@@ -448,7 +448,7 @@
                                 <td>House</td>
                                 <td>3.5 cr</td>
                                 <td>
-                                    <select class="stage-select stage-won" onchange="updateRowStage(this)">
+                                    <select class="stage-select stage-won" onchange="saveLeadStage(this)">
                                         <option value="New">New</option>
                                         <option value="Contacted">Contacted</option>
                                         <option value="Site Visit Scheduled">Site Visit Scheduled</option>
@@ -474,6 +474,8 @@
 
         </main>
     </div>
+
+    <div id="toastNotice" class="toast-notice">Saved successfully!</div>
 
     <footer class="page-footer">
         <p>
