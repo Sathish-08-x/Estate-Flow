@@ -56,6 +56,42 @@ document.addEventListener("DOMContentLoaded", function () {
             `;
 
             leadsTableBody.insertBefore(newRow, leadsTableBody.firstChild);
+
+            let targetCardsContainer = null;
+            let targetCountBadge = null;
+
+            if (leadStage === "New") {
+                targetCardsContainer = document.getElementById("cardsNew");
+                targetCountBadge = document.getElementById("countNew");
+            } else if (leadStage === "Contacted") {
+                targetCardsContainer = document.getElementById("cardsContacted");
+                targetCountBadge = document.getElementById("countContacted");
+            } else if (leadStage === "Site Visit Scheduled") {
+                targetCardsContainer = document.getElementById("cardsVisit");
+                targetCountBadge = document.getElementById("countVisit");
+            } else if (leadStage === "In Negotiation") {
+                targetCardsContainer = document.getElementById("cardsNegotiation");
+                targetCountBadge = document.getElementById("countNegotiation");
+            } else if (leadStage === "Closed Won") {
+                targetCardsContainer = document.getElementById("cardsClosed");
+                targetCountBadge = document.getElementById("countClosed");
+            }
+
+            if (targetCardsContainer) {
+                const newPipelineCard = document.createElement("div");
+                newPipelineCard.className = "pipeline-card";
+                newPipelineCard.innerHTML = `
+                    <h5>${clientName}</h5>
+                    <p>${propertyInterest} • ${budget}</p>
+                    <span class="badge ${badgeClass}">${priority}</span>
+                `;
+                targetCardsContainer.insertBefore(newPipelineCard, targetCardsContainer.firstChild);
+
+                if (targetCountBadge) {
+                    targetCountBadge.textContent = parseInt(targetCountBadge.textContent || "0") + 1;
+                }
+            }
+
             updateLeadCount();
             leadForm.reset();
         });

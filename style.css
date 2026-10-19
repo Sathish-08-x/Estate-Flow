@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -19,6 +23,9 @@ body {
     padding: 14px 28px;
     border-bottom: 2px solid #2563eb;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .main-heading {
@@ -81,10 +88,13 @@ body {
 }
 
 .sidebar {
-    width: 220px;
+    width: 230px;
     background-color: #ffffff;
     border-right: 2px solid #e2e8f0;
     padding: 20px 15px;
+    position: sticky;
+    top: 65px;
+    height: calc(100vh - 65px);
 }
 
 .sidebar-title {
@@ -345,12 +355,12 @@ body {
     display: flex;
     gap: 14px;
     overflow-x: auto;
-    padding-bottom: 6px;
+    padding-bottom: 8px;
 }
 
 .pipeline-column {
     flex: 1;
-    min-width: 190px;
+    min-width: 180px;
     background-color: #f8fafc;
     border: 1.5px solid #e2e8f0;
     border-radius: 6px;
@@ -367,7 +377,7 @@ body {
 }
 
 .pipeline-header h4 {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: #334155;
     text-transform: uppercase;
 }
@@ -381,12 +391,18 @@ body {
     border-radius: 10px;
 }
 
+.pipeline-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 50px;
+}
+
 .pipeline-card {
     background-color: #ffffff;
     border: 1.5px solid #cbd5e1;
     border-radius: 6px;
     padding: 10px;
-    margin-bottom: 10px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
