@@ -1,3 +1,38 @@
+const defaultLeads = [
+    { name: "MS.Amith varma", type: "Buyer", interest: "Apartment", budget: "3cr", stage: "New", priority: "High", date: "4-11-27", phone: "*******895" },
+    { name: "Aditya", type: "Seller", interest: "House", budget: "1.25cr", stage: "Contacted", priority: "Medium", date: "10-11-27", phone: "*******265" },
+    { name: "Mokshagan", type: "Buyer", interest: "Apartment", budget: "2cr", stage: "New", priority: "Low", date: "16-03-27", phone: "*******746" },
+    { name: "Sai praveen", type: "Seller", interest: "Condo", budget: "3.5 cr", stage: "New", priority: "High", date: "12-08-27", phone: "*******123" },
+    { name: "Datta sai praveen", type: "Buyer", interest: "Condo", budget: "2.7cr", stage: "New", priority: "High", date: "12-09-28", phone: "*******121" },
+    { name: "Shiva Sai", type: "Buyer", interest: "House", budget: "4cr", stage: "New", priority: "V.High", date: "14-06-28", phone: "*******437" },
+    { name: "Bala Sai", type: "Seller", interest: "House", budget: "3.5 cr", stage: "Closed Won", priority: "High", date: "14-08-28", phone: "******894" }
+];
+
+let currentLeads = [];
+
+function loadData() {
+    try {
+        const saved = localStorage.getItem("estateflow_leads_v3");
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                currentLeads = parsed;
+                return;
+            }
+        }
+    } catch (e) {
+    }
+    currentLeads = JSON.parse(JSON.stringify(defaultLeads));
+    saveData();
+}
+
+function saveData() {
+    try {
+        localStorage.setItem("estateflow_leads_v3", JSON.stringify(currentLeads));
+    } catch (e) {
+    }
+}
+
 function showToast(message) {
     const toast = document.getElementById("toastNotice");
     if (toast) {
@@ -9,16 +44,28 @@ function showToast(message) {
     }
 }
 
-function syncPipelineAndMetrics() {
-    const tableBody = document.getElementById("leadsTableBody");
-    if (!tableBody) return;
+function getPriorityBadgeClass(priority) {
+    if (priority === "High" || priority === "V.High") return "badge-high";
+    if (priority === "Low") return "badge-low";
+    return "badge-medium";
+}
 
+function getStageSelectClass(stage) {
+    if (stage === "Closed Won") return "stage-won";
+    if (stage === "Cancelled") return "stage-cancelled";
+    if (stage === "In Negotiation") return "stage-negotiation";
+    return "";
+}
+
+function renderAll() {
+    const tableBody = document.getElementById("leadsTableBody");
     const cardsNew = document.getElementById("cardsNew");
     const cardsContacted = document.getElementById("cardsContacted");
     const cardsVisit = document.getElementById("cardsVisit");
     const cardsNegotiation = document.getElementById("cardsNegotiation");
     const cardsClosed = document.getElementById("cardsClosed");
 
+    if (tableBody) tableBody.innerHTML = "";
     if (cardsNew) cardsNew.innerHTML = "";
     if (cardsContacted) cardsContacted.innerHTML = "";
     if (cardsVisit) cardsVisit.innerHTML = "";
@@ -26,43 +73,69 @@ function syncPipelineAndMetrics() {
     if (cardsClosed) cardsClosed.innerHTML = "";
 
     let cNew = 0, cContacted = 0, cVisit = 0, cNeg = 0, cClosed = 0;
-    const rows = tableBody.querySelectorAll("tr");
 
-    rows.forEach(function (row) {
-        const cells = row.querySelectorAll("td");
-        if (cells.length < 8) return;
+    currentLeads.forEach(function (lead, index) {
+        const priorityClass = getPriorityBadgeClass(lead.priority);
+        const stageClass = getStageSelectClass(lead.stage);
 
-        const name = cells[0].textContent.trim();
-        const interest = cells[2].textContent.trim();
-        const budget = cells[3].textContent.trim();
-        const stageSelect = cells[4].querySelector(".stage-select");
-        const stage = stageSelect ? stageSelect.value : cells[4].textContent.trim();
-        const priorityBadge = cells[5].querySelector(".badge");
-        const priority = priorityBadge ? priorityBadge.textContent.trim() : "Medium";
-        const priorityClass = priorityBadge ? priorityBadge.className : "badge badge-medium";
+        if (tableBody) {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td><strong>${lead.name}</strong></td>
+                <td><span class="badge-type">${lead.type}</span></td>
+                <td>${lead.interest}</td>
+                <td>${lead.budget}</td>
+                <td>
+                    <select class="stage-select ${stageClass}" onchange="changeLeadStageByIndex(${index}, this.value)">
+                        <option value="New">New</option>
+                        <option value="Contacted">Contacted</option>
+                        <option value="Site Visit Scheduled">Site Visit Scheduled</option>
+                        <option value="In Negotiation">In Negotiation</option>
+                        <option value="Closed Won">Closed Won</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </td>
+                <td><span class="badge ${priorityClass}">${lead.priority}</span></td>
+                <td>${lead.date}</td>
+                <td>${lead.phone}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button type="button" class="btn-save" onclick="saveLeadByIndex(${index}, this)">Save</button>
+                        <button type="button" class="btn-delete" onclick="deleteLeadByIndex(${index})">Delete</button>
+                    </div>
+                </td>
+            `;
+
+            const selectEl = tr.querySelector(".stage-select");
+            if (selectEl) {
+                selectEl.value = lead.stage;
+            }
+
+            tableBody.appendChild(tr);
+        }
 
         const card = document.createElement("div");
         card.className = "pipeline-card";
         card.innerHTML = `
-            <h5>${name}</h5>
-            <p>${interest} • ${budget}</p>
-            <span class="${priorityClass}">${priority}</span>
+            <h5>${lead.name}</h5>
+            <p>${lead.interest} • ${lead.budget}</p>
+            <span class="badge ${priorityClass}">${lead.priority}</span>
         `;
 
-        if (stage === "New" && cardsNew) {
-            cardsNew.appendChild(card);
+        if (lead.stage === "New") {
+            if (cardsNew) cardsNew.appendChild(card);
             cNew++;
-        } else if (stage === "Contacted" && cardsContacted) {
-            cardsContacted.appendChild(card);
+        } else if (lead.stage === "Contacted") {
+            if (cardsContacted) cardsContacted.appendChild(card);
             cContacted++;
-        } else if (stage === "Site Visit Scheduled" && cardsVisit) {
-            cardsVisit.appendChild(card);
+        } else if (lead.stage === "Site Visit Scheduled") {
+            if (cardsVisit) cardsVisit.appendChild(card);
             cVisit++;
-        } else if (stage === "In Negotiation" && cardsNegotiation) {
-            cardsNegotiation.appendChild(card);
+        } else if (lead.stage === "In Negotiation") {
+            if (cardsNegotiation) cardsNegotiation.appendChild(card);
             cNeg++;
-        } else if (stage === "Closed Won" && cardsClosed) {
-            cardsClosed.appendChild(card);
+        } else if (lead.stage === "Closed Won") {
+            if (cardsClosed) cardsClosed.appendChild(card);
             cClosed++;
         }
     });
@@ -80,135 +153,48 @@ function syncPipelineAndMetrics() {
     if (countClosed) countClosed.textContent = cClosed;
 
     const totalLeadsCounter = document.getElementById("totalLeadsCount");
-    if (totalLeadsCounter) totalLeadsCounter.textContent = rows.length;
-
     const metricVisits = document.getElementById("metricVisits");
     const metricNegotiation = document.getElementById("metricNegotiation");
     const metricClosed = document.getElementById("metricClosed");
 
+    if (totalLeadsCounter) totalLeadsCounter.textContent = currentLeads.length;
     if (metricVisits) metricVisits.textContent = cVisit;
     if (metricNegotiation) metricNegotiation.textContent = cNeg;
     if (metricClosed) metricClosed.textContent = cClosed;
 }
 
-function saveToLocalStorage() {
-    const tableBody = document.getElementById("leadsTableBody");
-    if (!tableBody) return;
-
-    const leads = [];
-    const rows = tableBody.querySelectorAll("tr");
-    rows.forEach(function (row) {
-        const cells = row.querySelectorAll("td");
-        if (cells.length < 8) return;
-
-        const name = cells[0].textContent.trim();
-        const type = cells[1].textContent.trim();
-        const interest = cells[2].textContent.trim();
-        const budget = cells[3].textContent.trim();
-        const stageSelect = cells[4].querySelector(".stage-select");
-        const stage = stageSelect ? stageSelect.value : "New";
-        const priorityBadge = cells[5].querySelector(".badge");
-        const priority = priorityBadge ? priorityBadge.textContent.trim() : "Medium";
-        const date = cells[6].textContent.trim();
-        const phone = cells[7].textContent.trim();
-
-        leads.push({ name, type, interest, budget, stage, priority, date, phone });
-    });
-
-    localStorage.setItem("estateflow_leads_data", JSON.stringify(leads));
-}
-
-function loadFromLocalStorage() {
-    const tableBody = document.getElementById("leadsTableBody");
-    const saved = localStorage.getItem("estateflow_leads_data");
-    if (!saved || !tableBody) return;
-
-    try {
-        const leads = JSON.parse(saved);
-        if (!Array.isArray(leads) || leads.length === 0) return;
-
-        tableBody.innerHTML = "";
-        leads.forEach(function (lead) {
-            let badgeClass = "badge-medium";
-            if (lead.priority === "High" || lead.priority === "V.High") badgeClass = "badge-high";
-            if (lead.priority === "Low") badgeClass = "badge-low";
-
-            let stageClass = "";
-            if (lead.stage === "Closed Won") stageClass = "stage-won";
-            if (lead.stage === "Cancelled") stageClass = "stage-cancelled";
-            if (lead.stage === "In Negotiation") stageClass = "stage-negotiation";
-
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td><strong>${lead.name}</strong></td>
-                <td><span class="badge-type">${lead.type}</span></td>
-                <td>${lead.interest}</td>
-                <td>${lead.budget}</td>
-                <td>
-                    <select class="stage-select ${stageClass}" onchange="saveLeadStage(this)">
-                        <option value="New" ${lead.stage === "New" ? "selected" : ""}>New</option>
-                        <option value="Contacted" ${lead.stage === "Contacted" ? "selected" : ""}>Contacted</option>
-                        <option value="Site Visit Scheduled" ${lead.stage === "Site Visit Scheduled" ? "selected" : ""}>Site Visit Scheduled</option>
-                        <option value="In Negotiation" ${lead.stage === "In Negotiation" ? "selected" : ""}>In Negotiation</option>
-                        <option value="Closed Won" ${lead.stage === "Closed Won" ? "selected" : ""}>Closed Won</option>
-                        <option value="Cancelled" ${lead.stage === "Cancelled" ? "selected" : ""}>Cancelled</option>
-                    </select>
-                </td>
-                <td><span class="badge ${badgeClass}">${lead.priority}</span></td>
-                <td>${lead.date}</td>
-                <td>${lead.phone}</td>
-                <td>
-                    <div class="action-buttons">
-                        <button type="button" class="btn-save" onclick="saveLeadRow(this)">Save</button>
-                        <button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button>
-                    </div>
-                </td>
-            `;
-            tableBody.appendChild(row);
-        });
-    } catch (e) {
+window.changeLeadStageByIndex = function (index, newStage) {
+    if (currentLeads[index]) {
+        currentLeads[index].stage = newStage;
+        saveData();
+        renderAll();
+        showToast("Saved: " + currentLeads[index].name + " is now " + newStage);
     }
-}
-
-window.saveLeadStage = function (selectElement) {
-    selectElement.classList.remove("stage-won", "stage-cancelled", "stage-negotiation");
-    if (selectElement.value === "Closed Won") {
-        selectElement.classList.add("stage-won");
-    } else if (selectElement.value === "Cancelled") {
-        selectElement.classList.add("stage-cancelled");
-    } else if (selectElement.value === "In Negotiation") {
-        selectElement.classList.add("stage-negotiation");
-    }
-
-    syncPipelineAndMetrics();
-    saveToLocalStorage();
-    showToast("Stage updated to " + selectElement.value + " & saved!");
 };
 
-window.saveLeadRow = function (buttonElement) {
-    const row = buttonElement.closest("tr");
-    if (!row) return;
-
-    const select = row.querySelector(".stage-select");
-    if (select) {
-        saveLeadStage(select);
+window.saveLeadByIndex = function (index, buttonElement) {
+    if (currentLeads[index]) {
+        saveData();
+        renderAll();
+        if (buttonElement) {
+            buttonElement.textContent = "Saved ✓";
+            buttonElement.classList.add("saved");
+            setTimeout(function () {
+                buttonElement.textContent = "Save";
+                buttonElement.classList.remove("saved");
+            }, 1200);
+        }
+        showToast("Saved " + currentLeads[index].name + " successfully ✓");
     }
-
-    buttonElement.textContent = "Saved ✓";
-    buttonElement.classList.add("saved");
-    setTimeout(function () {
-        buttonElement.textContent = "Save";
-        buttonElement.classList.remove("saved");
-    }, 1500);
 };
 
-window.deleteLead = function (buttonElement) {
-    const row = buttonElement.closest("tr");
-    if (row) {
-        row.remove();
-        syncPipelineAndMetrics();
-        saveToLocalStorage();
-        showToast("Lead deleted!");
+window.deleteLeadByIndex = function (index) {
+    if (currentLeads[index]) {
+        const deletedName = currentLeads[index].name;
+        currentLeads.splice(index, 1);
+        saveData();
+        renderAll();
+        showToast("Deleted lead: " + deletedName);
     }
 };
 
@@ -220,30 +206,25 @@ document.addEventListener("DOMContentLoaded", function () {
             document.body.classList.toggle("dark-mode");
             if (document.body.classList.contains("dark-mode")) {
                 themeToggle.textContent = "☀️ Light Mode";
-                localStorage.setItem("estateflow_theme", "dark");
+                try { localStorage.setItem("estateflow_theme", "dark"); } catch (e) {}
             } else {
                 themeToggle.textContent = "🌙 Dark Mode";
-                localStorage.setItem("estateflow_theme", "light");
+                try { localStorage.setItem("estateflow_theme", "light"); } catch (e) {}
             }
         });
 
-        if (localStorage.getItem("estateflow_theme") === "dark") {
-            document.body.classList.add("dark-mode");
-            themeToggle.textContent = "☀️ Light Mode";
-        }
+        try {
+            if (localStorage.getItem("estateflow_theme") === "dark") {
+                document.body.classList.add("dark-mode");
+                themeToggle.textContent = "☀️ Light Mode";
+            }
+        } catch (e) {}
     }
 
-    if (!localStorage.getItem("estateflow_leads_data")) {
-        saveToLocalStorage();
-    } else {
-        loadFromLocalStorage();
-    }
-
-    syncPipelineAndMetrics();
+    loadData();
+    renderAll();
 
     const leadForm = document.getElementById("leadForm");
-    const leadsTableBody = document.getElementById("leadsTableBody");
-
     if (leadForm) {
         leadForm.addEventListener("submit", function (e) {
             e.preventDefault();
@@ -255,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const budget = document.getElementById("budget").value.trim();
             const leadStage = document.getElementById("leadStage").value;
             const priority = document.getElementById("priority").value;
-            const followUpDate = document.getElementById("followUpDate").value;
+            const followUpDate = document.getElementById("followUpDate").value || "Pending";
             const phoneNumber = document.getElementById("phoneNumber").value.trim() || "*******000";
 
             if (!clientName || !budget) {
@@ -263,65 +244,34 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            let badgeClass = "badge-medium";
-            if (priority === "High" || priority === "V.High") {
-                badgeClass = "badge-high";
-            } else if (priority === "Low") {
-                badgeClass = "badge-low";
-            }
+            const newLead = {
+                name: clientName,
+                type: clientType,
+                interest: propertyInterest,
+                budget: budget,
+                stage: leadStage,
+                priority: priority,
+                date: followUpDate,
+                phone: phoneNumber
+            };
 
-            let stageClass = "";
-            if (leadStage === "Closed Won") stageClass = "stage-won";
-            if (leadStage === "Cancelled") stageClass = "stage-cancelled";
-            if (leadStage === "In Negotiation") stageClass = "stage-negotiation";
-
-            const newRow = document.createElement("tr");
-            let formattedDate = followUpDate || "Pending";
-
-            newRow.innerHTML = `
-                <td><strong>${clientName}</strong></td>
-                <td><span class="badge-type">${clientType}</span></td>
-                <td>${propertyInterest}</td>
-                <td>${budget}</td>
-                <td>
-                    <select class="stage-select ${stageClass}" onchange="saveLeadStage(this)">
-                        <option value="New" ${leadStage === "New" ? "selected" : ""}>New</option>
-                        <option value="Contacted" ${leadStage === "Contacted" ? "selected" : ""}>Contacted</option>
-                        <option value="Site Visit Scheduled" ${leadStage === "Site Visit Scheduled" ? "selected" : ""}>Site Visit Scheduled</option>
-                        <option value="In Negotiation" ${leadStage === "In Negotiation" ? "selected" : ""}>In Negotiation</option>
-                        <option value="Closed Won" ${leadStage === "Closed Won" ? "selected" : ""}>Closed Won</option>
-                        <option value="Cancelled" ${leadStage === "Cancelled" ? "selected" : ""}>Cancelled</option>
-                    </select>
-                </td>
-                <td><span class="badge ${badgeClass}">${priority}</span></td>
-                <td>${formattedDate}</td>
-                <td>${phoneNumber}</td>
-                <td>
-                    <div class="action-buttons">
-                        <button type="button" class="btn-save" onclick="saveLeadRow(this)">Save</button>
-                        <button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button>
-                    </div>
-                </td>
-            `;
-
-            if (leadsTableBody) {
-                leadsTableBody.insertBefore(newRow, leadsTableBody.firstChild);
-            }
-
-            syncPipelineAndMetrics();
-            saveToLocalStorage();
+            currentLeads.unshift(newLead);
+            saveData();
+            renderAll();
             leadForm.reset();
-            showToast("New lead for " + clientName + " saved to pipeline!");
+            showToast("New lead for " + clientName + " saved!");
         });
     }
 
     const searchInput = document.getElementById("searchInput");
     const searchForm = document.getElementById("searchForm");
 
-    if (searchInput && leadsTableBody) {
+    if (searchInput) {
         searchInput.addEventListener("keyup", function () {
             const query = searchInput.value.toLowerCase();
-            const rows = leadsTableBody.getElementsByTagName("tr");
+            const tableBody = document.getElementById("leadsTableBody");
+            if (!tableBody) return;
+            const rows = tableBody.getElementsByTagName("tr");
 
             for (let i = 0; i < rows.length; i++) {
                 const rowText = rows[i].textContent.toLowerCase();

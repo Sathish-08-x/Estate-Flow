@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EstateFlow - Property Lead Management</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 
@@ -43,7 +43,7 @@
                 </div>
                 <div class="metric-card">
                     <p>Site Visits Scheduled</p>
-                    <h3 id="metricVisits">1</h3>
+                    <h3 id="metricVisits">0</h3>
                 </div>
                 <div class="metric-card">
                     <p>In Negotiation</p>
@@ -65,58 +65,25 @@
                     <div class="pipeline-column">
                         <div class="pipeline-header">
                             <h4>New Inquiry</h4>
-                            <span class="count-badge" id="countNew">3</span>
+                            <span class="count-badge" id="countNew">0</span>
                         </div>
-                        <div class="pipeline-cards" id="cardsNew">
-                            <div class="pipeline-card">
-                                <h5>MS.Amith varma</h5>
-                                <p>Apartment • 3cr</p>
-                                <span class="badge badge-high">High</span>
-                            </div>
-                            <div class="pipeline-card">
-                                <h5>Aditya</h5>
-                                <p>House • 1.25cr</p>
-                                <span class="badge badge-medium">Medium</span>
-                            </div>
-                            <div class="pipeline-card">
-                                <h5>Mokshagan</h5>
-                                <p>Apartment • 2cr</p>
-                                <span class="badge badge-low">Low</span>
-                            </div>
-                        </div>
+                        <div class="pipeline-cards" id="cardsNew"></div>
                     </div>
 
                     <div class="pipeline-column">
                         <div class="pipeline-header">
                             <h4>Contacted</h4>
-                            <span class="count-badge" id="countContacted">2</span>
+                            <span class="count-badge" id="countContacted">0</span>
                         </div>
-                        <div class="pipeline-cards" id="cardsContacted">
-                            <div class="pipeline-card">
-                                <h5>Sai praveen</h5>
-                                <p>Condo • 3.5 cr</p>
-                                <span class="badge badge-high">High</span>
-                            </div>
-                            <div class="pipeline-card">
-                                <h5>Datta sai praveen</h5>
-                                <p>Condo • 2.7cr</p>
-                                <span class="badge badge-high">High</span>
-                            </div>
-                        </div>
+                        <div class="pipeline-cards" id="cardsContacted"></div>
                     </div>
 
                     <div class="pipeline-column">
                         <div class="pipeline-header">
                             <h4>Site Visit</h4>
-                            <span class="count-badge" id="countVisit">1</span>
+                            <span class="count-badge" id="countVisit">0</span>
                         </div>
-                        <div class="pipeline-cards" id="cardsVisit">
-                            <div class="pipeline-card">
-                                <h5>Shiva Sai</h5>
-                                <p>House • 4cr</p>
-                                <span class="badge badge-vhigh">V.High</span>
-                            </div>
-                        </div>
+                        <div class="pipeline-cards" id="cardsVisit"></div>
                     </div>
 
                     <div class="pipeline-column">
@@ -124,22 +91,15 @@
                             <h4>Negotiation</h4>
                             <span class="count-badge" id="countNegotiation">0</span>
                         </div>
-                        <div class="pipeline-cards" id="cardsNegotiation">
-                        </div>
+                        <div class="pipeline-cards" id="cardsNegotiation"></div>
                     </div>
 
                     <div class="pipeline-column">
                         <div class="pipeline-header">
                             <h4>Closed Won</h4>
-                            <span class="count-badge" id="countClosed">1</span>
+                            <span class="count-badge" id="countClosed">0</span>
                         </div>
-                        <div class="pipeline-cards" id="cardsClosed">
-                            <div class="pipeline-card">
-                                <h5>Bala Sai</h5>
-                                <p>House • 3.5 cr</p>
-                                <span class="badge badge-high">High</span>
-                            </div>
-                        </div>
+                        <div class="pipeline-cards" id="cardsClosed"></div>
                     </div>
                 </div>
             </section>
@@ -291,183 +251,7 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody id="leadsTableBody">
-                            <tr>
-                                <td><strong>MS.Amith varma</strong></td>
-                                <td><span class="badge-type">Buyer</span></td>
-                                <td>Apartment</td>
-                                <td>3cr</td>
-                                <td>
-                                    <select class="stage-select" onchange="saveLeadStage(this)">
-                                        <option value="New" selected>New</option>
-                                        <option value="Contacted">Contacted</option>
-                                        <option value="Site Visit Scheduled">Site Visit Scheduled</option>
-                                        <option value="In Negotiation">In Negotiation</option>
-                                        <option value="Closed Won">Closed Won</option>
-                                        <option value="Cancelled">Cancelled</option>
-                                    </select>
-                                </td>
-                                <td><span class="badge badge-high">High</span></td>
-                                <td>4-11-27</td>
-                                <td>*******895</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button type="button" class="btn-save" onclick="saveLeadRow(this)">Save</button>
-                                        <button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>Aditya</strong></td>
-                                <td><span class="badge-type">Seller</span></td>
-                                <td>House</td>
-                                <td>1.25cr</td>
-                                <td>
-                                    <select class="stage-select" onchange="saveLeadStage(this)">
-                                        <option value="New" selected>New</option>
-                                        <option value="Contacted">Contacted</option>
-                                        <option value="Site Visit Scheduled">Site Visit Scheduled</option>
-                                        <option value="In Negotiation">In Negotiation</option>
-                                        <option value="Closed Won">Closed Won</option>
-                                        <option value="Cancelled">Cancelled</option>
-                                    </select>
-                                </td>
-                                <td><span class="badge badge-medium">Medium</span></td>
-                                <td>10-11-27</td>
-                                <td>*******265</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button type="button" class="btn-save" onclick="saveLeadRow(this)">Save</button>
-                                        <button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>Mokshagan</strong></td>
-                                <td><span class="badge-type">Buyer</span></td>
-                                <td>Apartment</td>
-                                <td>2cr</td>
-                                <td>
-                                    <select class="stage-select" onchange="saveLeadStage(this)">
-                                        <option value="New" selected>New</option>
-                                        <option value="Contacted">Contacted</option>
-                                        <option value="Site Visit Scheduled">Site Visit Scheduled</option>
-                                        <option value="In Negotiation">In Negotiation</option>
-                                        <option value="Closed Won">Closed Won</option>
-                                        <option value="Cancelled">Cancelled</option>
-                                    </select>
-                                </td>
-                                <td><span class="badge badge-low">Low</span></td>
-                                <td>16-03-27</td>
-                                <td>*******746</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button type="button" class="btn-save" onclick="saveLeadRow(this)">Save</button>
-                                        <button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>Sai praveen</strong></td>
-                                <td><span class="badge-type">Seller</span></td>
-                                <td>Condo</td>
-                                <td>3.5 cr</td>
-                                <td>
-                                    <select class="stage-select" onchange="saveLeadStage(this)">
-                                        <option value="New" selected>New</option>
-                                        <option value="Contacted">Contacted</option>
-                                        <option value="Site Visit Scheduled">Site Visit Scheduled</option>
-                                        <option value="In Negotiation">In Negotiation</option>
-                                        <option value="Closed Won">Closed Won</option>
-                                        <option value="Cancelled">Cancelled</option>
-                                    </select>
-                                </td>
-                                <td><span class="badge badge-high">High</span></td>
-                                <td>12-08-27</td>
-                                <td>*******123</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button type="button" class="btn-save" onclick="saveLeadRow(this)">Save</button>
-                                        <button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>Datta sai praveen</strong></td>
-                                <td><span class="badge-type">Buyer</span></td>
-                                <td>Condo</td>
-                                <td>2.7cr</td>
-                                <td>
-                                    <select class="stage-select" onchange="saveLeadStage(this)">
-                                        <option value="New" selected>New</option>
-                                        <option value="Contacted">Contacted</option>
-                                        <option value="Site Visit Scheduled">Site Visit Scheduled</option>
-                                        <option value="In Negotiation">In Negotiation</option>
-                                        <option value="Closed Won">Closed Won</option>
-                                        <option value="Cancelled">Cancelled</option>
-                                    </select>
-                                </td>
-                                <td><span class="badge badge-high">High</span></td>
-                                <td>12-09-28</td>
-                                <td>*******121</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button type="button" class="btn-save" onclick="saveLeadRow(this)">Save</button>
-                                        <button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>Shiva Sai</strong></td>
-                                <td><span class="badge-type">Buyer</span></td>
-                                <td>House</td>
-                                <td>4cr</td>
-                                <td>
-                                    <select class="stage-select" onchange="saveLeadStage(this)">
-                                        <option value="New" selected>New</option>
-                                        <option value="Contacted">Contacted</option>
-                                        <option value="Site Visit Scheduled">Site Visit Scheduled</option>
-                                        <option value="In Negotiation">In Negotiation</option>
-                                        <option value="Closed Won">Closed Won</option>
-                                        <option value="Cancelled">Cancelled</option>
-                                    </select>
-                                </td>
-                                <td><span class="badge badge-vhigh">V.High</span></td>
-                                <td>14-06-28</td>
-                                <td>*******437</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button type="button" class="btn-save" onclick="saveLeadRow(this)">Save</button>
-                                        <button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>Bala Sai</strong></td>
-                                <td><span class="badge-type">Seller</span></td>
-                                <td>House</td>
-                                <td>3.5 cr</td>
-                                <td>
-                                    <select class="stage-select stage-won" onchange="saveLeadStage(this)">
-                                        <option value="New">New</option>
-                                        <option value="Contacted">Contacted</option>
-                                        <option value="Site Visit Scheduled">Site Visit Scheduled</option>
-                                        <option value="In Negotiation">In Negotiation</option>
-                                        <option value="Closed Won" selected>Closed Won</option>
-                                        <option value="Cancelled">Cancelled</option>
-                                    </select>
-                                </td>
-                                <td><span class="badge badge-high">High</span></td>
-                                <td>14-08-28</td>
-                                <td>******894</td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button type="button" class="btn-save" onclick="saveLeadRow(this)">Save</button>
-                                        <button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <tbody id="leadsTableBody"></tbody>
                     </table>
                 </div>
             </section>
@@ -486,6 +270,6 @@
         </p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=3"></script>
 </body>
 </html>
