@@ -12,32 +12,174 @@ document.addEventListener("DOMContentLoaded", function () {
             document.body.classList.toggle("dark-mode");
             if (document.body.classList.contains("dark-mode")) {
                 themeToggle.textContent = "☀️ Light Mode";
+                localStorage.setItem("estateflow_theme", "dark");
             } else {
                 themeToggle.textContent = "🌙 Dark Mode";
+                localStorage.setItem("estateflow_theme", "light");
             }
         });
+
+        if (localStorage.getItem("estateflow_theme") === "dark") {
+            document.body.classList.add("dark-mode");
+            themeToggle.textContent = "☀️ Light Mode";
+        }
     }
 
-    function updateLeadCount() {
-        if (totalLeadsCounter && leadsTableBody) {
-            const count = leadsTableBody.getElementsByTagName("tr").length;
-            totalLeadsCounter.textContent = count;
-        }
+    function syncPipelineAndMetrics() {
+        if (!leadsTableBody) return;
 
-        const closedMetric = document.getElementById("metricClosed");
-        const negotiationMetric = document.getElementById("metricNegotiation");
-        if (leadsTableBody) {
-            const selects = leadsTableBody.querySelectorAll(".stage-select");
-            let closedCount = 0;
-            let negotiationCount = 0;
-            selects.forEach(function (sel) {
-                if (sel.value === "Closed Won") closedCount++;
-                if (sel.value === "In Negotiation") negotiationCount++;
+        const cardsNew = document.getElementById("cardsNew");
+        const cardsContacted = document.getElementById("cardsContacted");
+        const cardsVisit = document.getElementById("cardsVisit");
+        const cardsNegotiation = document.getElementById("cardsNegotiation");
+        const cardsClosed = document.getElementById("cardsClosed");
+
+        if (cardsNew) cardsNew.innerHTML = "";
+        if (cardsContacted) cardsContacted.innerHTML = "";
+        if (cardsVisit) cardsVisit.innerHTML = "";
+        if (cardsNegotiation) cardsNegotiation.innerHTML = "";
+        if (cardsClosed) cardsClosed.innerHTML = "";
+
+        let cNew = 0, cContacted = 0, cVisit = 0, cNeg = 0, cClosed = 0;
+        const rows = leadsTableBody.querySelectorAll("tr");
+
+        rows.forEach(function (row) {
+            const cells = row.querySelectorAll("td");
+            if (cells.length < 8) return;
+
+            const name = cells[0].textContent.trim();
+            const interest = cells[2].textContent.trim();
+            const budget = cells[3].textContent.trim();
+            const stageSelect = cells[4].querySelector(".stage-select");
+            const stage = stageSelect ? stageSelect.value : cells[4].textContent.trim();
+            const priorityBadge = cells[5].querySelector(".badge");
+            const priority = priorityBadge ? priorityBadge.textContent.trim() : "Medium";
+            const priorityClass = priorityBadge ? priorityBadge.className : "badge badge-medium";
+
+            const card = document.createElement("div");
+            card.className = "pipeline-card";
+            card.innerHTML = `
+                <h5>${name}</h5>
+                <p>${interest} • ${budget}</p>
+                <span class="${priorityClass}">${priority}</span>
+            `;
+
+            if (stage === "New" && cardsNew) {
+                cardsNew.appendChild(card);
+                cNew++;
+            } else if (stage === "Contacted" && cardsContacted) {
+                cardsContacted.appendChild(card);
+                cContacted++;
+            } else if (stage === "Site Visit Scheduled" && cardsVisit) {
+                cardsVisit.appendChild(card);
+                cVisit++;
+            } else if (stage === "In Negotiation" && cardsNegotiation) {
+                cardsNegotiation.appendChild(card);
+                cNeg++;
+            } else if (stage === "Closed Won" && cardsClosed) {
+                cardsClosed.appendChild(card);
+                cClosed++;
+            }
+        });
+
+        const countNew = document.getElementById("countNew");
+        const countContacted = document.getElementById("countContacted");
+        const countVisit = document.getElementById("countVisit");
+        const countNegotiation = document.getElementById("countNegotiation");
+        const countClosed = document.getElementById("countClosed");
+
+        if (countNew) countNew.textContent = cNew;
+        if (countContacted) countContacted.textContent = cContacted;
+        if (countVisit) countVisit.textContent = cVisit;
+        if (countNegotiation) countNegotiation.textContent = cNeg;
+        if (countClosed) countClosed.textContent = cClosed;
+
+        if (totalLeadsCounter) totalLeadsCounter.textContent = rows.length;
+        const metricVisits = document.getElementById("metricVisits");
+        const metricNegotiation = document.getElementById("metricNegotiation");
+        const metricClosed = document.getElementById("metricClosed");
+
+        if (metricVisits) metricVisits.textContent = cVisit;
+        if (metricNegotiation) metricNegotiation.textContent = cNeg;
+        if (metricClosed) metricClosed.textContent = cClosed;
+    }
+
+    function saveToLocalStorage() {
+        if (!leadsTableBody) return;
+        const leads = [];
+        const rows = leadsTableBody.querySelectorAll("tr");
+        rows.forEach(function (row) {
+            const cells = row.querySelectorAll("td");
+            if (cells.length < 8) return;
+            const name = cells[0].textContent.trim();
+            const type = cells[1].textContent.trim();
+            const interest = cells[2].textContent.trim();
+            const budget = cells[3].textContent.trim();
+            const stageSelect = cells[4].querySelector(".stage-select");
+            const stage = stageSelect ? stageSelect.value : "New";
+            const priorityBadge = cells[5].querySelector(".badge");
+            const priority = priorityBadge ? priorityBadge.textContent.trim() : "Medium";
+            const date = cells[6].textContent.trim();
+            const phone = cells[7].textContent.trim();
+
+            leads.push({ name, type, interest, budget, stage, priority, date, phone });
+        });
+        localStorage.setItem("estateflow_leads_data", JSON.stringify(leads));
+    }
+
+    function loadFromLocalStorage() {
+        const saved = localStorage.getItem("estateflow_leads_data");
+        if (!saved || !leadsTableBody) return;
+
+        try {
+            const leads = JSON.parse(saved);
+            if (!Array.isArray(leads) || leads.length === 0) return;
+
+            leadsTableBody.innerHTML = "";
+            leads.forEach(function (lead) {
+                let badgeClass = "badge-medium";
+                if (lead.priority === "High" || lead.priority === "V.High") badgeClass = "badge-high";
+                if (lead.priority === "Low") badgeClass = "badge-low";
+
+                let stageClass = "";
+                if (lead.stage === "Closed Won") stageClass = "stage-won";
+                if (lead.stage === "Cancelled") stageClass = "stage-cancelled";
+                if (lead.stage === "In Negotiation") stageClass = "stage-negotiation";
+
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td><strong>${lead.name}</strong></td>
+                    <td><span class="badge-type">${lead.type}</span></td>
+                    <td>${lead.interest}</td>
+                    <td>${lead.budget}</td>
+                    <td>
+                        <select class="stage-select ${stageClass}" onchange="updateRowStage(this)">
+                            <option value="New" ${lead.stage === "New" ? "selected" : ""}>New</option>
+                            <option value="Contacted" ${lead.stage === "Contacted" ? "selected" : ""}>Contacted</option>
+                            <option value="Site Visit Scheduled" ${lead.stage === "Site Visit Scheduled" ? "selected" : ""}>Site Visit Scheduled</option>
+                            <option value="In Negotiation" ${lead.stage === "In Negotiation" ? "selected" : ""}>In Negotiation</option>
+                            <option value="Closed Won" ${lead.stage === "Closed Won" ? "selected" : ""}>Closed Won</option>
+                            <option value="Cancelled" ${lead.stage === "Cancelled" ? "selected" : ""}>Cancelled</option>
+                        </select>
+                    </td>
+                    <td><span class="badge ${badgeClass}">${lead.priority}</span></td>
+                    <td>${lead.date}</td>
+                    <td>${lead.phone}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button type="button" class="btn-save" onclick="saveLeadRow(this)">Save</button>
+                            <button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button>
+                        </div>
+                    </td>
+                `;
+                leadsTableBody.appendChild(row);
             });
-            if (closedMetric) closedMetric.textContent = closedCount;
-            if (negotiationMetric) negotiationMetric.textContent = negotiationCount;
+        } catch (e) {
         }
     }
+
+    loadFromLocalStorage();
+    syncPipelineAndMetrics();
 
     window.updateRowStage = function (selectElement) {
         selectElement.classList.remove("stage-won", "stage-cancelled", "stage-negotiation");
@@ -48,18 +190,36 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (selectElement.value === "In Negotiation") {
             selectElement.classList.add("stage-negotiation");
         }
-        updateLeadCount();
+    };
+
+    window.saveLeadRow = function (buttonElement) {
+        const row = buttonElement.closest("tr");
+        if (!row) return;
+
+        const select = row.querySelector(".stage-select");
+        if (select) {
+            updateRowStage(select);
+        }
+
+        syncPipelineAndMetrics();
+        saveToLocalStorage();
+
+        buttonElement.textContent = "Saved ✓";
+        buttonElement.classList.add("saved");
+        setTimeout(function () {
+            buttonElement.textContent = "Save";
+            buttonElement.classList.remove("saved");
+        }, 1500);
     };
 
     window.deleteLead = function (buttonElement) {
         const row = buttonElement.closest("tr");
         if (row) {
             row.remove();
-            updateLeadCount();
+            syncPipelineAndMetrics();
+            saveToLocalStorage();
         }
     };
-
-    updateLeadCount();
 
     if (leadForm) {
         leadForm.addEventListener("submit", function (e) {
@@ -113,47 +273,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td><span class="badge ${badgeClass}">${priority}</span></td>
                 <td>${formattedDate}</td>
                 <td>${phoneNumber}</td>
-                <td><button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button></td>
+                <td>
+                    <div class="action-buttons">
+                        <button type="button" class="btn-save" onclick="saveLeadRow(this)">Save</button>
+                        <button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button>
+                    </div>
+                </td>
             `;
 
             leadsTableBody.insertBefore(newRow, leadsTableBody.firstChild);
-
-            let targetCardsContainer = null;
-            let targetCountBadge = null;
-
-            if (leadStage === "New") {
-                targetCardsContainer = document.getElementById("cardsNew");
-                targetCountBadge = document.getElementById("countNew");
-            } else if (leadStage === "Contacted") {
-                targetCardsContainer = document.getElementById("cardsContacted");
-                targetCountBadge = document.getElementById("countContacted");
-            } else if (leadStage === "Site Visit Scheduled") {
-                targetCardsContainer = document.getElementById("cardsVisit");
-                targetCountBadge = document.getElementById("countVisit");
-            } else if (leadStage === "In Negotiation") {
-                targetCardsContainer = document.getElementById("cardsNegotiation");
-                targetCountBadge = document.getElementById("countNegotiation");
-            } else if (leadStage === "Closed Won") {
-                targetCardsContainer = document.getElementById("cardsClosed");
-                targetCountBadge = document.getElementById("countClosed");
-            }
-
-            if (targetCardsContainer) {
-                const newPipelineCard = document.createElement("div");
-                newPipelineCard.className = "pipeline-card";
-                newPipelineCard.innerHTML = `
-                    <h5>${clientName}</h5>
-                    <p>${propertyInterest} • ${budget}</p>
-                    <span class="badge ${badgeClass}">${priority}</span>
-                `;
-                targetCardsContainer.insertBefore(newPipelineCard, targetCardsContainer.firstChild);
-
-                if (targetCountBadge) {
-                    targetCountBadge.textContent = parseInt(targetCountBadge.textContent || "0") + 1;
-                }
-            }
-
-            updateLeadCount();
+            syncPipelineAndMetrics();
+            saveToLocalStorage();
             leadForm.reset();
         });
     }

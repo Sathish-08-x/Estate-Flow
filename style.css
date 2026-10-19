@@ -376,6 +376,33 @@ body {
     color: #6d28d9;
 }
 
+.action-buttons {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.btn-save {
+    padding: 5px 10px;
+    background-color: #2563eb;
+    color: #ffffff;
+    border: 1px solid #1d4ed8;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-save:hover {
+    background-color: #1d4ed8;
+}
+
+.btn-save.saved {
+    background-color: #10b981;
+    border-color: #059669;
+}
+
 .btn-delete {
     padding: 5px 10px;
     background-color: #fee2e2;
