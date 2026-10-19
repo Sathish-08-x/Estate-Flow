@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstateFlow - Property Lead Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <h1 class="main-heading">
+            🏢 EstateFlow <span>Property CRM</span>
+        </h1>
+        <form id="searchForm" class="searching-section">
+            <input type="text" id="searchInput" placeholder="🔍 Search leads..." class="searching-input">
+            <button type="submit" class="search-button">Search</button>
+        </form>
+    </header>
+
+    <div class="layout-container">
+
+        <aside class="sidebar">
+            <div class="sidebar-title">Menu Navigation</div>
+            <ul class="navigation-links">
+                <li><a href="#" class="active">📊 Dashboard</a></li>
+                <li><a href="#leadsTableSection">📋 All Leads</a></li>
+                <li><a href="#salesPipelineSection">📈 Sales Pipeline</a></li>
+                <li><a href="#followUpSection">📅 Follow-up Schedule</a></li>
+                <li><a href="#leadFormSection">➕ Add New Lead</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+
+            <div class="metrics-row">
+                <div class="metric-card">
+                    <p>Total Active Leads</p>
+                    <h3 id="totalLeadsCount">7</h3>
+                </div>
+                <div class="metric-card">
+                    <p>Site Visits Scheduled</p>
+                    <h3>4</h3>
+                </div>
+                <div class="metric-card">
+                    <p>Pending Follow-ups</p>
+                    <h3>3</h3>
+                </div>
+                <div class="metric-card">
+                    <p>Closed Inquiries</p>
+                    <h3>2</h3>
+                </div>
+            </div>
+
+            <section class="card-box" id="salesPipelineSection">
+                <h2 class="card-title">
+                    <span>📈 Sales Pipeline</span>
+                    <small style="font-size: 0.8rem; font-weight: normal; color: #64748b;">Deal Progression</small>
+                </h2>
+
+                <div class="pipeline-container">
+                    <div class="pipeline-column">
+                        <div class="pipeline-header">
+                            <h4>New Inquiry</h4>
+                            <span class="count-badge">3</span>
+                        </div>
+                        <div class="pipeline-card">
+                            <h5>MS.Amith varma</h5>
+                            <p>Apartment • 3cr</p>
+                            <span class="badge badge-high">High</span>
+                        </div>
+                        <div class="pipeline-card">
+                            <h5>Aditya</h5>
+                            <p>House • 1.25cr</p>
+                            <span class="badge badge-medium">Medium</span>
+                        </div>
+                        <div class="pipeline-card">
+                            <h5>Mokshagan</h5>
+                            <p>Apartment • 2cr</p>
+                            <span class="badge badge-low">Low</span>
+                        </div>
+                    </div>
+
+                    <div class="pipeline-column">
+                        <div class="pipeline-header">
+                            <h4>Contacted</h4>
+                            <span class="count-badge">2</span>
+                        </div>
+                        <div class="pipeline-card">
+                            <h5>Sai praveen</h5>
+                            <p>Condo • 3.5 cr</p>
+                            <span class="badge badge-high">High</span>
+                        </div>
+                        <div class="pipeline-card">
+                            <h5>Datta sai praveen</h5>
+                            <p>Condo • 2.7cr</p>
+                            <span class="badge badge-high">High</span>
+                        </div>
+                    </div>
+
+                    <div class="pipeline-column">
+                        <div class="pipeline-header">
+                            <h4>Site Visit</h4>
+                            <span class="count-badge">1</span>
+                        </div>
+                        <div class="pipeline-card">
+                            <h5>Shiva Sai</h5>
+                            <p>House • 4cr</p>
+                            <span class="badge badge-vhigh">V.High</span>
+                        </div>
+                    </div>
+
+                    <div class="pipeline-column">
+                        <div class="pipeline-header">
+                            <h4>Closed Won</h4>
+                            <span class="count-badge">1</span>
+                        </div>
+                        <div class="pipeline-card">
+                            <h5>Bala Sai</h5>
+                            <p>House • 3.5 cr</p>
+                            <span class="badge badge-high">High</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card-box" id="followUpSection">
+                <h2 class="card-title">
+                    <span>📅 Follow-up Schedule</span>
+                    <small style="font-size: 0.8rem; font-weight: normal; color: #64748b;">Upcoming Action Items</small>
+                </h2>
+
+                <div class="table-responsive">
+                    <table class="leads-table">
+                        <thead>
+                            <tr>
+                                <th>Schedule Date</th>
+                                <th>Client Name</th>
+                                <th>Action Item</th>
+                                <th>Property Interest</th>
+                                <th>Contact Number</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Tomorrow (10:00 AM)</strong></td>
+                                <td>MS.Amith varma</td>
+                                <td><span class="badge badge-high">Site Visit</span></td>
+                                <td>Apartment (3cr)</td>
+                                <td>*******895</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tomorrow (02:30 PM)</strong></td>
+                                <td>Aditya</td>
+                                <td><span class="badge badge-medium">Follow-up Call</span></td>
+                                <td>House (1.25cr)</td>
+                                <td>*******265</td>
+                            </tr>
+                            <tr>
+                                <td><strong>24-10-2026</strong></td>
+                                <td>Sai praveen</td>
+                                <td><span class="badge badge-high">Price Discussion</span></td>
+                                <td>Condo (3.5 cr)</td>
+                                <td>*******123</td>
+                            </tr>
+                            <tr>
+                                <td><strong>26-10-2026</strong></td>
+                                <td>Shiva Sai</td>
+                                <td><span class="badge badge-vhigh">Final Agreement</span></td>
+                                <td>House (4cr)</td>
+                                <td>*******437</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="card-box" id="leadFormSection">
+                <h2 class="card-title">
+                    <span>➕ Add New Property Lead</span>
+                    <small style="font-size: 0.8rem; font-weight: normal; color: #64748b;">Enter client inquiry details</small>
+                </h2>
+
+                <form id="leadForm" class="lead-form">
+                    <div class="form-group">
+                        <label for="clientName">Client Name:</label>
+                        <input type="text" id="clientName" placeholder="e.g. Rahul Sharma" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Client Type:</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="clientType" value="Buyer" checked> Buyer</label>
+                            <label><input type="radio" name="clientType" value="Seller"> Seller</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="propertyInterest">Property Interest:</label>
+                        <select id="propertyInterest">
+                            <option value="Apartment">Apartment</option>
+                            <option value="House">House</option>
+                            <option value="Condo">Condo</option>
+                            <option value="Villa">Luxury Villa</option>
+                            <option value="Commercial">Commercial Office</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="budget">Budget / Price Range:</label>
+                        <input type="text" id="budget" placeholder="e.g. 2.5 cr or 85L" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="leadStage">Lead Stage:</label>
+                        <select id="leadStage">
+                            <option value="New">New</option>
+                            <option value="Contacted">Contacted</option>
+                            <option value="Site Visit Scheduled">Site Visit Scheduled</option>
+                            <option value="In Negotiation">In Negotiation</option>
+                            <option value="Closed Won">Closed Won</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="priority">Priority:</label>
+                        <select id="priority">
+                            <option value="High">High</option>
+                            <option value="Medium" selected>Medium</option>
+                            <option value="Low">Low</option>
+                            <option value="V.High">V.High</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="followUpDate">Next Follow-up Date:</label>
+                        <input type="date" id="followUpDate">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phoneNumber">Phone Number:</label>
+                        <input type="text" id="phoneNumber" placeholder="e.g. *******895">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-submit">Submit Lead</button>
+                        <button type="reset" class="btn-reset">Clear Form</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="card-box" id="leadsTableSection">
+                <h2 class="card-title">
+                    <span>📋 Property Leads Directory</span>
+                    <small style="font-size: 0.8rem; font-weight: normal; color: #64748b;">Live Inquiries & Pipeline</small>
+                </h2>
+
+                <div class="table-responsive">
+                    <table class="leads-table">
+                        <thead>
+                            <tr>
+                                <th>Client Name</th>
+                                <th>Type</th>
+                                <th>Interest</th>
+                                <th>Budget</th>
+                                <th>Stage</th>
+                                <th>Priority</th>
+                                <th>Follow-up Date</th>
+                                <th>Phone Number</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leadsTableBody">
+                            <tr>
+                                <td><strong>MS.Amith varma</strong></td>
+                                <td><span class="badge-type">Buyer</span></td>
+                                <td>Apartment</td>
+                                <td>3cr</td>
+                                <td>New</td>
+                                <td><span class="badge badge-high">High</span></td>
+                                <td>4-11-27</td>
+                                <td>*******895</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Aditya</strong></td>
+                                <td><span class="badge-type">Seller</span></td>
+                                <td>House</td>
+                                <td>1.25cr</td>
+                                <td>New</td>
+                                <td><span class="badge badge-medium">Medium</span></td>
+                                <td>10-11-27</td>
+                                <td>*******265</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mokshagan</strong></td>
+                                <td><span class="badge-type">Buyer</span></td>
+                                <td>Apartment</td>
+                                <td>2cr</td>
+                                <td>New</td>
+                                <td><span class="badge badge-low">Low</span></td>
+                                <td>16-03-27</td>
+                                <td>*******746</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sai praveen</strong></td>
+                                <td><span class="badge-type">Seller</span></td>
+                                <td>Condo</td>
+                                <td>3.5 cr</td>
+                                <td>New</td>
+                                <td><span class="badge badge-high">High</span></td>
+                                <td>12-08-27</td>
+                                <td>*******123</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Datta sai praveen</strong></td>
+                                <td><span class="badge-type">Buyer</span></td>
+                                <td>Condo</td>
+                                <td>2.7cr</td>
+                                <td>New</td>
+                                <td><span class="badge badge-high">High</span></td>
+                                <td>12-09-28</td>
+                                <td>*******121</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Shiva Sai</strong></td>
+                                <td><span class="badge-type">Buyer</span></td>
+                                <td>House</td>
+                                <td>4cr</td>
+                                <td>New</td>
+                                <td><span class="badge badge-vhigh">V.High</span></td>
+                                <td>14-06-28</td>
+                                <td>*******437</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Bala Sai</strong></td>
+                                <td><span class="badge-type">Seller</span></td>
+                                <td>House</td>
+                                <td>3.5 cr</td>
+                                <td>New</td>
+                                <td><span class="badge badge-high">High</span></td>
+                                <td>14-08-28</td>
+                                <td>******894</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <footer class="page-footer">
+        <p>
+            Property Lead Management System | 
+            Lead: <strong>Sathish Gudipudi (12613921)</strong> | 
+            Team: <strong>Boys-QH-T</strong>
+        </p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
