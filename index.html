@@ -12,10 +12,13 @@
         <h1 class="main-heading">
             🏢 EstateFlow <span>Property CRM</span>
         </h1>
-        <form id="searchForm" class="searching-section">
-            <input type="text" id="searchInput" placeholder="🔍 Search leads..." class="searching-input">
-            <button type="submit" class="search-button">Search</button>
-        </form>
+        <div class="navbar-right">
+            <button type="button" id="themeToggle" class="theme-toggle">🌙 Dark Mode</button>
+            <form id="searchForm" class="searching-section">
+                <input type="text" id="searchInput" placeholder="🔍 Search leads..." class="searching-input">
+                <button type="submit" class="search-button">Search</button>
+            </form>
+        </div>
     </header>
 
     <div class="layout-container">
@@ -43,11 +46,11 @@
                     <h3 id="metricVisits">1</h3>
                 </div>
                 <div class="metric-card">
-                    <p>Pending Follow-ups</p>
-                    <h3>4</h3>
+                    <p>In Negotiation</p>
+                    <h3 id="metricNegotiation">0</h3>
                 </div>
                 <div class="metric-card">
-                    <p>Closed Inquiries</p>
+                    <p>Closed Won Deals</p>
                     <h3 id="metricClosed">1</h3>
                 </div>
             </div>
@@ -236,6 +239,7 @@
                             <option value="Site Visit Scheduled">Site Visit Scheduled</option>
                             <option value="In Negotiation">In Negotiation</option>
                             <option value="Closed Won">Closed Won</option>
+                            <option value="Cancelled">Cancelled</option>
                         </select>
                     </div>
 
@@ -284,6 +288,7 @@
                                 <th>Priority</th>
                                 <th>Follow-up Date</th>
                                 <th>Phone Number</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody id="leadsTableBody">
@@ -292,70 +297,140 @@
                                 <td><span class="badge-type">Buyer</span></td>
                                 <td>Apartment</td>
                                 <td>3cr</td>
-                                <td>New</td>
+                                <td>
+                                    <select class="stage-select" onchange="updateRowStage(this)">
+                                        <option value="New" selected>New</option>
+                                        <option value="Contacted">Contacted</option>
+                                        <option value="Site Visit Scheduled">Site Visit Scheduled</option>
+                                        <option value="In Negotiation">In Negotiation</option>
+                                        <option value="Closed Won">Closed Won</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                    </select>
+                                </td>
                                 <td><span class="badge badge-high">High</span></td>
                                 <td>4-11-27</td>
                                 <td>*******895</td>
+                                <td><button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button></td>
                             </tr>
                             <tr>
                                 <td><strong>Aditya</strong></td>
                                 <td><span class="badge-type">Seller</span></td>
                                 <td>House</td>
                                 <td>1.25cr</td>
-                                <td>New</td>
+                                <td>
+                                    <select class="stage-select" onchange="updateRowStage(this)">
+                                        <option value="New" selected>New</option>
+                                        <option value="Contacted">Contacted</option>
+                                        <option value="Site Visit Scheduled">Site Visit Scheduled</option>
+                                        <option value="In Negotiation">In Negotiation</option>
+                                        <option value="Closed Won">Closed Won</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                    </select>
+                                </td>
                                 <td><span class="badge badge-medium">Medium</span></td>
                                 <td>10-11-27</td>
                                 <td>*******265</td>
+                                <td><button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button></td>
                             </tr>
                             <tr>
                                 <td><strong>Mokshagan</strong></td>
                                 <td><span class="badge-type">Buyer</span></td>
                                 <td>Apartment</td>
                                 <td>2cr</td>
-                                <td>New</td>
+                                <td>
+                                    <select class="stage-select" onchange="updateRowStage(this)">
+                                        <option value="New" selected>New</option>
+                                        <option value="Contacted">Contacted</option>
+                                        <option value="Site Visit Scheduled">Site Visit Scheduled</option>
+                                        <option value="In Negotiation">In Negotiation</option>
+                                        <option value="Closed Won">Closed Won</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                    </select>
+                                </td>
                                 <td><span class="badge badge-low">Low</span></td>
                                 <td>16-03-27</td>
                                 <td>*******746</td>
+                                <td><button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button></td>
                             </tr>
                             <tr>
                                 <td><strong>Sai praveen</strong></td>
                                 <td><span class="badge-type">Seller</span></td>
                                 <td>Condo</td>
                                 <td>3.5 cr</td>
-                                <td>New</td>
+                                <td>
+                                    <select class="stage-select" onchange="updateRowStage(this)">
+                                        <option value="New" selected>New</option>
+                                        <option value="Contacted">Contacted</option>
+                                        <option value="Site Visit Scheduled">Site Visit Scheduled</option>
+                                        <option value="In Negotiation">In Negotiation</option>
+                                        <option value="Closed Won">Closed Won</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                    </select>
+                                </td>
                                 <td><span class="badge badge-high">High</span></td>
                                 <td>12-08-27</td>
                                 <td>*******123</td>
+                                <td><button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button></td>
                             </tr>
                             <tr>
                                 <td><strong>Datta sai praveen</strong></td>
                                 <td><span class="badge-type">Buyer</span></td>
                                 <td>Condo</td>
                                 <td>2.7cr</td>
-                                <td>New</td>
+                                <td>
+                                    <select class="stage-select" onchange="updateRowStage(this)">
+                                        <option value="New" selected>New</option>
+                                        <option value="Contacted">Contacted</option>
+                                        <option value="Site Visit Scheduled">Site Visit Scheduled</option>
+                                        <option value="In Negotiation">In Negotiation</option>
+                                        <option value="Closed Won">Closed Won</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                    </select>
+                                </td>
                                 <td><span class="badge badge-high">High</span></td>
                                 <td>12-09-28</td>
                                 <td>*******121</td>
+                                <td><button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button></td>
                             </tr>
                             <tr>
                                 <td><strong>Shiva Sai</strong></td>
                                 <td><span class="badge-type">Buyer</span></td>
                                 <td>House</td>
                                 <td>4cr</td>
-                                <td>New</td>
+                                <td>
+                                    <select class="stage-select" onchange="updateRowStage(this)">
+                                        <option value="New" selected>New</option>
+                                        <option value="Contacted">Contacted</option>
+                                        <option value="Site Visit Scheduled">Site Visit Scheduled</option>
+                                        <option value="In Negotiation">In Negotiation</option>
+                                        <option value="Closed Won">Closed Won</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                    </select>
+                                </td>
                                 <td><span class="badge badge-vhigh">V.High</span></td>
                                 <td>14-06-28</td>
                                 <td>*******437</td>
+                                <td><button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button></td>
                             </tr>
                             <tr>
                                 <td><strong>Bala Sai</strong></td>
                                 <td><span class="badge-type">Seller</span></td>
                                 <td>House</td>
                                 <td>3.5 cr</td>
-                                <td>New</td>
+                                <td>
+                                    <select class="stage-select stage-won" onchange="updateRowStage(this)">
+                                        <option value="New">New</option>
+                                        <option value="Contacted">Contacted</option>
+                                        <option value="Site Visit Scheduled">Site Visit Scheduled</option>
+                                        <option value="In Negotiation">In Negotiation</option>
+                                        <option value="Closed Won" selected>Closed Won</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                    </select>
+                                </td>
                                 <td><span class="badge badge-high">High</span></td>
                                 <td>14-08-28</td>
                                 <td>******894</td>
+                                <td><button type="button" class="btn-delete" onclick="deleteLead(this)">Delete</button></td>
                             </tr>
                         </tbody>
                     </table>
